@@ -1,5 +1,6 @@
 package com.ufrn.dad.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ufrn.dad.model.ComponenteCurricular;
 import com.ufrn.dad.model.Unidade;
 import com.ufrn.dad.repository.UnidadeRepository;
 
@@ -68,6 +70,24 @@ public class UnidadeRest {
 		
 		return ResponseEntity.ok().body(unidade.get());
 	}
+	
+	/**
+	 * Apresenta os componentes de uma unidade pelo Id da unidade
+	 * 
+	 * @return
+	 */
+	@GetMapping("/{id}/componentes")
+	public List<ComponenteCurricular> findAllComponentes(@PathVariable(value = "id") Integer id) {
+		Optional<Unidade> unidade = repository.findById(id);
+		
+		if (unidade == null) {
+			List<ComponenteCurricular> empty = new ArrayList<ComponenteCurricular>();
+			return empty;
+		}
+		
+		return unidade.get().getComponentes();
+	}
+	
 
 	/**
 	 * Atualiza uma unidade
@@ -83,7 +103,7 @@ public class UnidadeRest {
 			return ResponseEntity.notFound().build();
 		}
 
-		unidade.get().setNome_unidade(unidadeInfo.getNome());
+		unidade.get().setNome(unidadeInfo.getNome());
 		Unidade updateUnidade = repository.save(unidade.get());
 		return ResponseEntity.ok(updateUnidade);
 	}
