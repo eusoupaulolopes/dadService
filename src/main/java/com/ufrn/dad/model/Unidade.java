@@ -1,6 +1,5 @@
 package com.ufrn.dad.model;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,36 +9,40 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.engine.jdbc.SerializableBlobProxy;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table
-public class Unidade implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class Unidade{
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_UNIDADE")
 	@SequenceGenerator(name = "SEQ_UNIDADE", sequenceName = "id_seq_unidade", allocationSize = 1)
 	@Column(name = "id_unidade")
-	private Integer id;
+	public Integer id;
 	
-	private String nome;
+	public String nome;
 	
 	// O mapeamento indica quem deve tomar conta do relacionamento, no caso é o atributo 'unidade' da classe ComponenteCurricular
 	// O modelo de cascata Persist diz o componente será afetado apenas nas inserções e atualizações da unidade
 	// JoinColumn indica qual o valor que referencia o relacionamento
 	@OneToMany(mappedBy="unidade", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
-	private List<ComponenteCurricular> componentes;
-
+	@JsonIgnore
+	public List<ComponenteCurricular> componentes;
+	
+	public Unidade() {
+		super();
+	}
+	
+	public Unidade(Integer id){
+		this.id = id;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
