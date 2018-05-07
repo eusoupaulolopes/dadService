@@ -18,7 +18,7 @@ public interface UnidadeRepository  extends JpaRepository<Unidade, Integer> {
 	 * @param nome
 	 * @return
 	 */
-	Unidade findByNome(String nome);
+	Unidade findByLotacao(String lotacao);
 	
 	
 	

@@ -28,7 +28,7 @@ import com.ufrn.dad.repository.UnidadeRepository;
  */
 
 @RestController
-@RequestMapping("unidades")
+@RequestMapping("unidade")
 public class UnidadeRest {
 
 	@Autowired
@@ -103,13 +103,13 @@ public class UnidadeRest {
 			return ResponseEntity.notFound().build();
 		}
 
-		unidade.get().setNome(unidadeInfo.getNome());
+		unidade.get().setLotacao(unidadeInfo.getLotacao());
 		Unidade updateUnidade = repository.save(unidade.get());
 		return ResponseEntity.ok(updateUnidade);
 	}
 
 	/**
-	 * Deleta uma unidade
+	 * Apaga uma unidade
 	 * @param id
 	 * @return
 	 */

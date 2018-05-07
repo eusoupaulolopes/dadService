@@ -29,6 +29,7 @@ public class ComponenteCurricularRest {
 
 	@PostMapping
 	public ComponenteCurricular save(@Valid @RequestBody ComponenteCurricular componente) {
+		
 		return repository.save(componente);
 	}
 

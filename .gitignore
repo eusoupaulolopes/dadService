@@ -6,6 +6,7 @@
 
 .project
 .classpath
+*.csv
 factoryConfiguration.json
 
 ### Eclipse ###
@@ -21,6 +22,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+
 
 # External tool builders
 .externalToolBuilders/
@@ -217,5 +219,15 @@ buildNumber.properties
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar
 
-
 # End of https://www.gitignore.io/api/java,maven,eclipse,java-web,intellij,code-java,intellij+all
+# Created by https://www.gitignore.io/api/jupyternotebook
+
+### JupyterNotebook ###
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# Remove previous ipynb_checkpoints
+#   git rm -r .ipynb_checkpoints/
+#
+
+# End of https://www.gitignore.io/api/jupyternotebook
