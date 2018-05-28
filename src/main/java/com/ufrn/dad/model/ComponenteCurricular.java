@@ -1,21 +1,22 @@
 package com.ufrn.dad.model;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table
@@ -27,8 +28,8 @@ public class ComponenteCurricular implements Serializable{
 	public static final long serialVersionUID = 3766220200551972311L;
 
 	@Id
-	@SequenceGenerator(name = "SEQ_COMPONENTE_CURRICULAR", sequenceName = "id_seq_componente_curricular", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_COMPONENTE_CURRICULAR")
+//	@SequenceGenerator(name = "SEQ_COMPONENTE_CURRICULAR", sequenceName = "id_seq_componente_curricular", allocationSize = 1)
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_COMPONENTE_CURRICULAR")
 	@Column(name = "id_componente_curricular")
 	public Integer id;
 	
@@ -40,6 +41,11 @@ public class ComponenteCurricular implements Serializable{
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="id_unidade", referencedColumnName = "id_unidade")
 	public Unidade unidade;
+	
+	@OneToMany(mappedBy = "componenteCurricular", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonIgnore
+	public List<Turma> turmas;
 	
 	public ComponenteCurricular(){
 		super();
@@ -84,5 +90,17 @@ public class ComponenteCurricular implements Serializable{
 	public void setUnidade(Unidade unidade) {
 		this.unidade = unidade;
 	}
+
+
+	public List<Turma> getTurmas() {
+		return turmas;
+	}
+
+
+	public void setTurmas(List<Turma> turmas) {
+		this.turmas = turmas;
+	}
+	
+	
 	
 }
