@@ -14,6 +14,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table
@@ -21,6 +22,7 @@ public class Unidade {
 
 	@Id
 	@Column(name = "id_unidade")
+	@JsonProperty("id_unidade")
 	public Integer id;
 
 	public String lotacao;

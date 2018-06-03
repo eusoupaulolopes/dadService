@@ -8,12 +8,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table
 public class Turma {
 
 	@Id
 	@Column(name = "id_turma")
+	@JsonProperty("id_turma")
 	public Integer id;
 	
 	public String ano;
@@ -23,7 +26,8 @@ public class Turma {
 	public String periodo;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="id_componente_curricular", referencedColumnName = "id_componente_curricular")
+	@JoinColumn(name="id_componente", referencedColumnName = "id_componente_curricular")
+	@JsonProperty("id_componente")
 	public ComponenteCurricular componenteCurricular;
 
 	public Integer getId() {
