@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table
@@ -19,6 +20,7 @@ public class Docente {
 	
 	@Id
 	@Column(name = "id_docente")
+	@JsonProperty("id_docente")
 	public Integer id;
 	
 	public String nome;
@@ -27,6 +29,7 @@ public class Docente {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="id_unidade", referencedColumnName = "id_unidade")
+	@JsonProperty("id_unidade")
 	public Unidade unidade;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd")
