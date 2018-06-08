@@ -8,7 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -72,12 +71,12 @@ public class Turma {
 		this.periodo = periodo;
 	}
 
-	public ComponenteCurricular getComponente_curricular() {
+	public ComponenteCurricular getComponenteCurricular() {
 		return componenteCurricular;
 	}
 
-	public void setComponente_curricular(ComponenteCurricular componente_curricular) {
-		this.componenteCurricular = componente_curricular;
+	public void setComponenteCurricular(ComponenteCurricular componenteCurricular) {
+		this.componenteCurricular = componenteCurricular;
 	}
 	
 

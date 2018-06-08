@@ -16,8 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table
 public class Docente {
-	
-	
+
 	@Id
 	@Column(name = "id_docente")
 	@JsonProperty("id_docente")
