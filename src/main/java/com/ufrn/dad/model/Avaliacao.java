@@ -39,6 +39,14 @@ public class Avaliacao implements Serializable {
 	@JsonProperty("id_turma")
 	public Turma turma;
 	
+	public Avaliacao(){
+		super();
+	}
+	public Avaliacao(Integer id){
+		super();
+		this.id = id;
+	}
+	
 	@JsonProperty("qtd_discentes")
 	public Integer qtdDiscentes;
 	
