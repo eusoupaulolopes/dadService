@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -29,7 +30,16 @@ public class Turma {
 	@JoinColumn(name="id_componente", referencedColumnName = "id_componente_curricular")
 	@JsonProperty("id_componente")
 	public ComponenteCurricular componenteCurricular;
-
+	
+	
+	public Turma(){
+		super();
+	}
+	public Turma(Integer id){
+		super();
+		this.id = id;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

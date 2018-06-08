@@ -47,12 +47,15 @@ public class ComponenteCurricular implements Serializable{
 	public Unidade unidade;
 	
 	@OneToMany(mappedBy = "componenteCurricular", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
-	@Fetch(value = FetchMode.SUBSELECT)
 	@JsonIgnore
 	public List<Turma> turmas;
 	
 	public ComponenteCurricular(){
 		super();
+	}
+	
+	public ComponenteCurricular(Integer id) {
+		this.id = id;
 	}
 
 

@@ -27,7 +27,6 @@ public class Avaliacao implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_avaliacao")
-	@JsonIgnore
 	public Integer id;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -54,6 +53,67 @@ public class Avaliacao implements Serializable {
 	
 	@JsonProperty("atuacao_profissional_DP")
 	public Double atuacaoProfissionalDP;
+	
+	
+	public Avaliacao(){
+		super();
+	}
+	public Avaliacao(Integer id){
+		super();
+		this.id = id;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public Docente getDocente() {
+		return docente;
+	}
+	public void setDocente(Docente docente) {
+		this.docente = docente;
+	}
+	public Turma getTurma() {
+		return turma;
+	}
+	public void setTurma(Turma turma) {
+		this.turma = turma;
+	}
+	public Integer getQtdDiscentes() {
+		return qtdDiscentes;
+	}
+	public void setQtdDiscentes(Integer qtdDiscentes) {
+		this.qtdDiscentes = qtdDiscentes;
+	}
+	public Double getPosturaProfissional() {
+		return posturaProfissional;
+	}
+	public void setPosturaProfissional(Double posturaProfissional) {
+		this.posturaProfissional = posturaProfissional;
+	}
+	public Double getPosturaProfissionalDP() {
+		return posturaProfissionalDP;
+	}
+	public void setPosturaProfissionalDP(Double posturaProfissionalDP) {
+		this.posturaProfissionalDP = posturaProfissionalDP;
+	}
+	public Double getAtuacaoProfissional() {
+		return atuacaoProfissional;
+	}
+	public void setAtuacaoProfissional(Double atuacaoProfissional) {
+		this.atuacaoProfissional = atuacaoProfissional;
+	}
+	public Double getAtuacaoProfissionalDP() {
+		return atuacaoProfissionalDP;
+	}
+	public void setAtuacaoProfissionalDP(Double atuacaoProfissionalDP) {
+		this.atuacaoProfissionalDP = atuacaoProfissionalDP;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
 	
 	
 
