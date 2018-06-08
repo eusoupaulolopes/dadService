@@ -62,14 +62,6 @@ public class Avaliacao implements Serializable {
 	@JsonProperty("atuacao_profissional_DP")
 	public Double atuacaoProfissionalDP;
 	
-	
-	public Avaliacao(){
-		super();
-	}
-	public Avaliacao(Integer id){
-		super();
-		this.id = id;
-	}
 	public Integer getId() {
 		return id;
 	}
