@@ -29,7 +29,16 @@ public class Turma {
 	@JoinColumn(name="id_componente", referencedColumnName = "id_componente_curricular")
 	@JsonProperty("id_componente")
 	public ComponenteCurricular componenteCurricular;
-
+	
+	
+	public Turma(){
+		super();
+	}
+	public Turma(Integer id){
+		super();
+		this.id = id;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

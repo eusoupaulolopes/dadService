@@ -35,6 +35,17 @@ public class Docente {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	public Date data_admissao;
 
+	public Docente() {
+		super();
+		
+	}
+	
+	
+	public Docente(Integer id) {
+		super();
+		this.id = id;
+	}
+
 	public Integer getId() {
 		return id;
 	}

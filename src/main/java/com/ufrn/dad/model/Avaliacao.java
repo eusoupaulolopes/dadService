@@ -27,7 +27,6 @@ public class Avaliacao implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id_avaliacao")
-	@JsonIgnore
 	public Integer id;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -39,6 +38,14 @@ public class Avaliacao implements Serializable {
 	@JoinColumn(name = "id_turma", referencedColumnName = "id_turma")
 	@JsonProperty("id_turma")
 	public Turma turma;
+	
+	public Avaliacao(){
+		super();
+	}
+	public Avaliacao(Integer id){
+		super();
+		this.id = id;
+	}
 	
 	@JsonProperty("qtd_discentes")
 	public Integer qtdDiscentes;
