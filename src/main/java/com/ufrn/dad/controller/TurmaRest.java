@@ -48,8 +48,8 @@ public class TurmaRest {
 		
 		if (!turmaInfo.getAno().isEmpty())
 			turma.get().setAno(turmaInfo.getAno());
-		if (turmaInfo.getComponente_curricular() != null)
-			turma.get().setComponente_curricular(turmaInfo.getComponente_curricular());
+		if (turmaInfo.getComponenteCurricular() != null)
+			turma.get().setComponenteCurricular(turmaInfo.getComponenteCurricular());
 		if (turmaInfo.getId() != null)
 			turma.get().setId(turmaInfo.getId());
 		if (!turma.get().getNivel().isEmpty())

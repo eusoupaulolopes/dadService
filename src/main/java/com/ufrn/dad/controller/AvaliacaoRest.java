@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ufrn.dad.model.Avaliacao;
-import com.ufrn.dad.model.ComponenteCurricular;
-import com.ufrn.dad.model.Turma;
 import com.ufrn.dad.repository.AvaliacaoRepository;
 
 @RestController
@@ -61,7 +58,6 @@ public class AvaliacaoRest {
 		if(avaliacaoInfo.getQtdDiscentes() != null)
 			avaliacao.get().setQtdDiscentes(avaliacaoInfo.getQtdDiscentes());
 		
-		
 		if(avaliacaoInfo.getPosturaProfissional() != null)
 			avaliacao.get().setPosturaProfissional(avaliacaoInfo.getPosturaProfissional());
 		
@@ -73,6 +69,12 @@ public class AvaliacaoRest {
 		
 		if(avaliacaoInfo.getAtuacaoProfissionalDP() != null)
 			avaliacao.get().setAtuacaoProfissionalDP(avaliacaoInfo.getAtuacaoProfissionalDP());
+		
+		if(avaliacaoInfo.getMediaAprovados() != null)
+			avaliacao.get().setMediaAprovados(avaliacaoInfo.getMediaAprovados());
+		
+		if(avaliacaoInfo.getAprovados() != null)
+			avaliacao.get().setAprovados(avaliacaoInfo.getAprovados());
 		
 		Avaliacao updateAvaliacao = repository.save(avaliacao.get());
 		return ResponseEntity.ok(updateAvaliacao);

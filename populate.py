@@ -9,6 +9,8 @@ def make_post(df, endpoint):
     for record in records:
         request = requests.post(endpoint, data=json.dumps(record), headers={'Content-Type': 'application/json'})
         print request.text
+        if not request.ok:
+            break
 
 def insert(df_url, endpoint):
     df = pd.read_csv(df_url, sep=';')
@@ -24,5 +26,5 @@ if __name__ == '__main__':
     insert('unidade.csv', api_url+'unidade')
     insert('docente.csv', api_url+'docente')
     insert_componentes()
-    # insert('turma.csv', api_url+'turma')
+    insert('turma.csv', api_url+'turma')
     insert('avaliacao.csv', api_url+'avaliacao')
