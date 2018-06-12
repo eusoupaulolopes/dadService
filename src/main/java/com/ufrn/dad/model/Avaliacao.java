@@ -61,11 +61,28 @@ public class Avaliacao implements Serializable {
 	@JsonProperty("atuacao_profissional_DP")
 	public Double atuacaoProfissionalDP;
 	
+	@JsonProperty("media_aprovados")
+	public Double mediaAprovados;
+	
+	public Double aprovados;
+	
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public Double getMediaAprovados() {
+		return mediaAprovados;
+	}
+	public void setMediaAprovados(Double mediaAprovados) {
+		this.mediaAprovados = mediaAprovados;
+	}
+	public Double getAprovados() {
+		return aprovados;
+	}
+	public void setAprovados(Double aprovados) {
+		this.aprovados = aprovados;
 	}
 	public Docente getDocente() {
 		return docente;

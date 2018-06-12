@@ -139,6 +139,94 @@ df_avaliacoes.head()
 # In[17]:
 
 
+matriculas = [
+    'http://dados.ufrn.br/dataset/c8650d55-3c5a-4787-a126-d28a4ef902a6/resource/55dfe713-ff7c-4fa8-8d1d-d4294a025bff/download/matricula-componente-20172',
+    'http://dados.ufrn.br/dataset/c8650d55-3c5a-4787-a126-d28a4ef902a6/resource/79071c21-e32c-438f-b930-d1b6ccc02ec2/download/matricula-componente-20171',
+    'http://dados.ufrn.br/dataset/c8650d55-3c5a-4787-a126-d28a4ef902a6/resource/f6179838-b619-4d7d-af9c-18c438b80dd4/download/matriculas-de-2016.2.csv',
+    'http://dados.ufrn.br/dataset/c8650d55-3c5a-4787-a126-d28a4ef902a6/resource/4778d3ce-8898-46a8-a623-ee6a480a2980/download/matriculas-de-2016.1.csv',
+    'http://dados.ufrn.br/dataset/c8650d55-3c5a-4787-a126-d28a4ef902a6/resource/baa6c8b4-2072-417f-b238-c028ccc8c14b/download/matriculas-de-2015.2.csv',
+    'http://dados.ufrn.br/dataset/c8650d55-3c5a-4787-a126-d28a4ef902a6/resource/9e7ba1c2-f92d-4b9c-9e91-3b026ecdf913/download/matriculas-de-2015.1.csv',
+    'http://dados.ufrn.br/dataset/c8650d55-3c5a-4787-a126-d28a4ef902a6/resource/e974792c-b557-470c-bf3d-ede7d5b5e6a6/download/matricula-componente-20142.csv',
+    'http://dados.ufrn.br/dataset/c8650d55-3c5a-4787-a126-d28a4ef902a6/resource/7081446d-39f9-4374-ad0b-86ecab97e569/download/matricula-componente-20141.csv',
+    'http://dados.ufrn.br/dataset/c8650d55-3c5a-4787-a126-d28a4ef902a6/resource/517ed5f6-f8a2-40fd-826b-6ed3388f6e88/download/matricula-componente-20132.csv',
+    'http://dados.ufrn.br/dataset/c8650d55-3c5a-4787-a126-d28a4ef902a6/resource/674de4cc-1fc0-4314-9f04-a38f0e1f9225/download/matricula-componente-20131.csv',
+]
+
+
+# In[18]:
+
+
+dfs_matricula = [pd.read_csv(matricula, sep=';') for matricula in matriculas]
+
+
+# In[19]:
+
+
+df_matriculas = pd.concat(dfs_matricula)
+
+
+# In[20]:
+
+
+df_matriculas = df_matriculas[~df_matriculas['descricao'].isin(['CUMPRIU', 'INDEFERIDO', 'EXCLUIDA'])]
+
+
+# In[21]:
+
+
+df_matriculas.replace('APROVADO POR NOTA', 'APROVADO', inplace=True)
+df_matriculas.replace(['REPROVADO POR NOTA', 'REPROVADO POR FALTAS', 'REPROVADO POR MÉDIA E POR FALTAS', 'REPROVADO POR NOTA E FALTA', 'DESISTENCIA', 'TRANCADO', 'CANCELADO'], 'REPROVADO', inplace=True)
+
+
+# In[22]:
+
+
+df_matriculas = df_matriculas.merge(df_turmas[['id_turma']].astype(int), on='id_turma', how='inner')
+df_matriculas.head()
+
+
+# In[23]:
+
+
+df_aprovados = df_matriculas[df_matriculas['descricao'] == 'APROVADO']
+df_media_aprovados = df_aprovados.groupby('id_turma')['media_final'].mean().to_frame('media_aprovados').reset_index(level=0)
+
+df_media_aprovados.head()
+
+
+# In[24]:
+
+
+#media_turma = df_matriculas.groupby('id_turma')['media_final'].mean().to_frame('média').reset_index(level=0)
+#media_turma.head()
+
+
+# In[25]:
+
+
+df_porcentagem = df_matriculas.groupby('id_turma')['descricao'].value_counts(normalize=True).to_frame('aprovados')
+
+
+# In[26]:
+
+
+df_porcentagem = df_porcentagem.reset_index(level=[0, 1])
+df_porcentagem = df_porcentagem[~df_porcentagem['descricao'].isin(['REPROVADO'])]
+df_porcentagem = df_porcentagem[['id_turma', 'aprovados']]
+df_porcentagem.head()
+
+
+# In[27]:
+
+
+df_avaliacoes = df_avaliacoes.merge(df_media_aprovados, on='id_turma', how='left')
+df_avaliacoes = df_avaliacoes.merge(df_porcentagem, on='id_turma', how='left')
+df_avaliacoes.head()
+
+
+# In[28]:
+
+
 df_avaliacoes.to_csv('avaliacao.csv', sep=';', index=False)
 df_componente_lotacao.to_csv('componente_lotacao.csv', sep=';', index=False)
 df_componente_curricular.to_csv('componente_curricular.csv', sep=';', index=False)

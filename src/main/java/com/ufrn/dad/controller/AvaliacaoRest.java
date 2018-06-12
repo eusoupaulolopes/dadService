@@ -58,7 +58,6 @@ public class AvaliacaoRest {
 		if(avaliacaoInfo.getQtdDiscentes() != null)
 			avaliacao.get().setQtdDiscentes(avaliacaoInfo.getQtdDiscentes());
 		
-		
 		if(avaliacaoInfo.getPosturaProfissional() != null)
 			avaliacao.get().setPosturaProfissional(avaliacaoInfo.getPosturaProfissional());
 		
@@ -70,6 +69,12 @@ public class AvaliacaoRest {
 		
 		if(avaliacaoInfo.getAtuacaoProfissionalDP() != null)
 			avaliacao.get().setAtuacaoProfissionalDP(avaliacaoInfo.getAtuacaoProfissionalDP());
+		
+		if(avaliacaoInfo.getMediaAprovados() != null)
+			avaliacao.get().setMediaAprovados(avaliacaoInfo.getMediaAprovados());
+		
+		if(avaliacaoInfo.getAprovados() != null)
+			avaliacao.get().setAprovados(avaliacaoInfo.getAprovados());
 		
 		Avaliacao updateAvaliacao = repository.save(avaliacao.get());
 		return ResponseEntity.ok(updateAvaliacao);
