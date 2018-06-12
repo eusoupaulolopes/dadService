@@ -93,7 +93,7 @@ public class UnidadeDaoImpl implements UnidadeDao {
 
 	@Override
 	public Unidade save(Unidade u) {
-		String sql = "INSERT INTO UNIDADE" + "(id_unidade, lotacao) VALUES (?, ?)";
+		String sql = "INSERT INTO UNIDADE" + "(id_unidade, lotacao) VALUES (?, ?) ON DUPLICATE KEY UPDATE lotacao=?";
 
 		Connection conn = null;
 		try {
@@ -101,6 +101,7 @@ public class UnidadeDaoImpl implements UnidadeDao {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, u.getId());
 			ps.setString(2, u.getLotacao());
+			ps.setString(3, u.getLotacao());
 			ps.executeUpdate();
 			ps.close();
 			return u;
@@ -117,11 +118,6 @@ public class UnidadeDaoImpl implements UnidadeDao {
 			}
 		}
 
-	}
-
-	@Override
-	public void update(Unidade u) {
-		
 	}
 
 	@Override
