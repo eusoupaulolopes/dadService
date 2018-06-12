@@ -25,7 +25,7 @@ public class Turma {
 	
 	public String periodo;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="id_componente", referencedColumnName = "id_componente_curricular")
 	@JsonProperty("id_componente")
 	public ComponenteCurricular componenteCurricular;
@@ -34,6 +34,7 @@ public class Turma {
 	public Turma(){
 		super();
 	}
+	
 	public Turma(Integer id){
 		super();
 		this.id = id;

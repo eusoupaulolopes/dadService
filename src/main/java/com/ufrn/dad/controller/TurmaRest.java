@@ -16,61 +16,74 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ufrn.dad.dao.impl.TurmaDaoImpl;
 import com.ufrn.dad.model.Turma;
-import com.ufrn.dad.repository.TurmaRepository;
+import com.ufrn.dad.model.Unidade;
 
 @RestController
 @RequestMapping("turma")
 public class TurmaRest {
-	
+
 	@Autowired
-	public TurmaRepository repository;
-	
+	public TurmaDaoImpl repository;
+
 	@GetMapping()
 	public List<Turma> findAll() {
 		return repository.findAll();
 	}
-	
-	@PostMapping
-	public Turma save(@Valid @RequestBody Turma turma) {
-		return repository.save(turma);
-	}
-	
-	@PutMapping("/{id}")
-	public ResponseEntity<Turma> update(@PathVariable(value = "id") Integer id,
-			@RequestBody Turma turmaInfo) {
-		Optional<Turma> turma = repository.findById(id);
+
+	/**
+	 * Apresenta uma Turma pelo Id
+	 * 
+	 * @return
+	 */
+	@GetMapping("/{id}")
+	public ResponseEntity<Turma> getById(@PathVariable(value = "id") Integer id) {
+		Turma turma = repository.findById(id);
 
 		if (turma == null) {
 			return ResponseEntity.notFound().build();
 		}
-		
-		
-		if (!turmaInfo.getAno().isEmpty())
-			turma.get().setAno(turmaInfo.getAno());
-		if (turmaInfo.getComponenteCurricular() != null)
-			turma.get().setComponenteCurricular(turmaInfo.getComponenteCurricular());
-		if (turmaInfo.getId() != null)
-			turma.get().setId(turmaInfo.getId());
-		if (!turma.get().getNivel().isEmpty())
-			turma.get().setNivel(turmaInfo.getNivel());
-		if (!turma.get().getPeriodo().isEmpty())
-			turma.get().setPeriodo(turmaInfo.getPeriodo());
 
-		Turma updateTurma = repository.save(turma.get());
+		return ResponseEntity.ok().body(turma);
+	}
+
+	@PostMapping
+	public Turma save(@Valid @RequestBody Turma turma) {
+		return repository.save(turma);
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<Turma> update(@PathVariable(value = "id") Integer id, @RequestBody Turma turmaInfo) {
+		Turma turma = repository.findById(id);
+
+		if (turma == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		if (!turmaInfo.getAno().isEmpty())
+			turma.setAno(turmaInfo.getAno());
+		if (turmaInfo.getComponenteCurricular() != null)
+			turma.setComponenteCurricular(turmaInfo.getComponenteCurricular());
+		if (turmaInfo.getId() != null)
+			turma.setId(turmaInfo.getId());
+		if (!turmaInfo.getNivel().isEmpty())
+			turma.setNivel(turmaInfo.getNivel());
+		if (!turmaInfo.getPeriodo().isEmpty())
+			turma.setPeriodo(turmaInfo.getPeriodo());
+
+		Turma updateTurma = repository.save(turma);
 		return ResponseEntity.ok(updateTurma);
 	}
-	
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Turma> delete(@PathVariable(value = "id") Integer id) {
-		Optional<Turma> turma = repository.findById(id);
+		Turma turma = repository.findById(id);
 		if (turma == null)
 			return ResponseEntity.notFound().build();
 
-		repository.delete(turma.get());
+		repository.delete(turma);
 		return ResponseEntity.ok().build();
 	}
-	
 
 }

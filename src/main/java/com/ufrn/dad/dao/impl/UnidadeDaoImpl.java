@@ -8,22 +8,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.ufrn.dad.dao.GenericDao;
 import com.ufrn.dad.dao.UnidadeDao;
 import com.ufrn.dad.model.Unidade;
 
 @Repository
-public class UnidadeDaoImpl implements UnidadeDao {
-	@Autowired
-	private DataSource dataSource;
-
-	public void setDataSource(DataSource dataSource) {
-		this.dataSource = dataSource;
-	}
+public class UnidadeDaoImpl extends GenericDao implements UnidadeDao {
+	
 
 	@Override
 	public List<Unidade> findAll() {
@@ -67,9 +60,12 @@ public class UnidadeDaoImpl implements UnidadeDao {
 		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
+			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
+			
 			ResultSet rs = ps.executeQuery();
+			
 			Unidade unidade = null;
 			if (rs.next()) {
 				unidade = new Unidade();
