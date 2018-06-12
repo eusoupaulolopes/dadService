@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ufrn.dad.dao.impl.UnidadeDaoImpl;
 import com.ufrn.dad.model.ComponenteCurricular;
 import com.ufrn.dad.model.Unidade;
 import com.ufrn.dad.repository.UnidadeRepository;
@@ -32,7 +33,7 @@ import com.ufrn.dad.repository.UnidadeRepository;
 public class UnidadeRest {
 
 	@Autowired
-	UnidadeRepository repository;
+	UnidadeDaoImpl repository;
 
 	/**
 	 * Metodo para salvar uma unidade
@@ -62,13 +63,13 @@ public class UnidadeRest {
 	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<Unidade> getById(@PathVariable(value = "id") Integer id) {
-		Optional<Unidade> unidade = repository.findById(id);
+		Unidade unidade = repository.findById(id);
 		
 		if (unidade == null) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		return ResponseEntity.ok().body(unidade.get());
+		return ResponseEntity.ok().body(unidade);
 	}
 	
 	/**
@@ -78,14 +79,14 @@ public class UnidadeRest {
 	 */
 	@GetMapping("/{id}/componentes")
 	public List<ComponenteCurricular> findAllComponentes(@PathVariable(value = "id") Integer id) {
-		Optional<Unidade> unidade = repository.findById(id);
+		Unidade unidade = repository.findById(id);
 		
 		if (unidade == null) {
 			List<ComponenteCurricular> empty = new ArrayList<ComponenteCurricular>();
 			return empty;
 		}
 		
-		return unidade.get().getComponentes();
+		return unidade.getComponentes();
 	}
 	
 
@@ -97,14 +98,19 @@ public class UnidadeRest {
 	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<Unidade> update(@PathVariable(value = "id") Integer id, @RequestBody Unidade unidadeInfo) {
-		Optional<Unidade> unidade = repository.findById(id);
+		Unidade unidade = repository.findById(id);
 		
 		if (unidade == null) {
 			return ResponseEntity.notFound().build();
 		}
-
-		unidade.get().setLotacao(unidadeInfo.getLotacao());
-		Unidade updateUnidade = repository.save(unidade.get());
+		
+		if (!unidadeInfo.getLotacao().isEmpty())
+			unidade.setLotacao(unidadeInfo.getLotacao());
+		if (unidadeInfo.getId() != null)
+			unidade.setId(unidadeInfo.getId());
+		
+		
+		Unidade updateUnidade = repository.save(unidade);
 		return ResponseEntity.ok(updateUnidade);
 	}
 
@@ -115,11 +121,11 @@ public class UnidadeRest {
 	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Unidade> delete(@PathVariable(value = "id") Integer id) {
-		Optional<Unidade> unidade = repository.findById(id);
+		Unidade unidade = repository.findById(id);
 		if (unidade == null)
 			return ResponseEntity.notFound().build();
 
-		repository.delete(unidade.get());
+		repository.delete(unidade);
 		return ResponseEntity.ok().build();
 	}
 
