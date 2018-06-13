@@ -66,21 +66,21 @@ public class TurmaDaoImpl extends GenericDao implements TurmaDao {
 
 	@Override
 	public Turma findById(Integer id) {
-		
+
 		String sql = "SELECT * FROM turma "
 				+ "turma left join componente_curricular on turma.id_componente=componente_curricular.id_componente_curricular"
 				+ " left join unidade on componente_curricular.id_unidade=unidade.id_unidade where id_turma = ?";
 
 		try (Connection conn = dataSource.getConnection()) {
-			
+
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
-			
+
 			ResultSet rs = ps.executeQuery();
 			Turma turma = null;
-			
+
 			if (rs.next()) {
-				
+
 				turma = new Turma();
 				turma.setId(rs.getInt("id_turma"));
 				turma.setAno(rs.getString("ano"));
@@ -96,7 +96,7 @@ public class TurmaDaoImpl extends GenericDao implements TurmaDao {
 
 				cc.setUnidade(uu);
 				turma.setComponenteCurricular(cc);
-				
+
 			}
 			ps.close();
 			rs.close();
@@ -111,8 +111,22 @@ public class TurmaDaoImpl extends GenericDao implements TurmaDao {
 
 	@Override
 	public Turma save(Turma u) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "REPLACE INTO TURMA (id_turma, ano, nivel, periodo, id_componente) VALUES (?,?,?,?,?)";
+
+		try (Connection conn = dataSource.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, u.getId());
+			ps.setString(2, u.getAno());
+			ps.setString(3, u.getNivel());
+			ps.setString(4, u.getPeriodo());
+			ps.setInt(5, u.getComponenteCurricular().getId());
+			
+			ps.executeUpdate();
+			ps.close();
+			return u;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override

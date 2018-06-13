@@ -90,10 +90,8 @@ public class UnidadeDaoImpl extends GenericDao implements UnidadeDao {
 	@Override
 	public Unidade save(Unidade u) {
 		String sql = "INSERT INTO UNIDADE" + "(id_unidade, lotacao) VALUES (?, ?) ON DUPLICATE KEY UPDATE lotacao=?";
-
-		Connection conn = null;
-		try {
-			conn = dataSource.getConnection();
+		
+		try (Connection conn = dataSource.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, u.getId());
 			ps.setString(2, u.getLotacao());
@@ -104,14 +102,6 @@ public class UnidadeDaoImpl extends GenericDao implements UnidadeDao {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 
-		} finally {
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					System.err.print(e.getMessage());
-				}
-			}
 		}
 
 	}
