@@ -6,13 +6,11 @@ import com.ufrn.dad.model.Avaliacao;
 
 public interface AvaliacaoDao {
 
-	List<Avaliacao> getAll();
+	List<Avaliacao> findAll();
 
-	Avaliacao getById(Integer id);
+	Avaliacao findById(Integer id);
 
 	Avaliacao save(Avaliacao avaliacao);
-
-	Avaliacao update(Avaliacao avaliacao);
 
 	void delete(Avaliacao avaliacao);
 
