@@ -30,12 +30,12 @@ public class Avaliacao implements Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
-	@JsonProperty("id_docente")
+	@JsonProperty("docente")
 	public Docente docente;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_turma", referencedColumnName = "id_turma")
-	@JsonProperty("id_turma")
+	@JsonProperty("turma")
 	public Turma turma;
 
 	@JsonProperty("qtd_discentes")

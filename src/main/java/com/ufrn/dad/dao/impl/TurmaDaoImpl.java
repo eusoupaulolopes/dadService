@@ -111,7 +111,7 @@ public class TurmaDaoImpl extends GenericDao implements TurmaDao {
 
 	@Override
 	public Turma save(Turma u) {
-		String sql = "REPLACE INTO TURMA (id_turma, ano, nivel, periodo, id_componente) VALUES (?,?,?,?,?)";
+		String sql = "REPLACE INTO turma (id_turma, ano, nivel, periodo, id_componente) VALUES (?,?,?,?,?)";
 
 		try (Connection conn = dataSource.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);

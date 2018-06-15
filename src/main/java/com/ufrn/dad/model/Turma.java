@@ -27,7 +27,7 @@ public class Turma {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="id_componente", referencedColumnName = "id_componente_curricular")
-	@JsonProperty("id_componente")
+	@JsonProperty("componente")
 	public ComponenteCurricular componenteCurricular;
 	
 	
