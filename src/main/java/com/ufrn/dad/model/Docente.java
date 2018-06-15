@@ -19,7 +19,7 @@ public class Docente {
 
 	@Id
 	@Column(name = "id_docente")
-	@JsonProperty("docente")
+	@JsonProperty("id_docente")
 	public Integer id;
 	
 	public String nome;
@@ -28,7 +28,7 @@ public class Docente {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="id_unidade", referencedColumnName = "id_unidade")
-	@JsonProperty("id_unidade")
+	@JsonProperty("unidade")
 	public Unidade unidade;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd")

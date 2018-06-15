@@ -40,7 +40,7 @@ public class ComponenteCurricular implements Serializable{
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="id_unidade", referencedColumnName = "id_unidade")
-	@JsonProperty("id_unidade")
+	@JsonProperty("unidade")
 	public Unidade unidade;
 	
 	@OneToMany(mappedBy = "componenteCurricular", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })

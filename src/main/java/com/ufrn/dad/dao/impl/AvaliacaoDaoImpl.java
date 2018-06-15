@@ -27,7 +27,8 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 	 */
 	@Override
 	public List<Avaliacao> findAll() {
-		String sql = "SELECT * FROM avaliacao " + "join docente on avaliacao.id_docente=docente.id_docente "
+		String sql = "SELECT * FROM avaliacao "
+				+ "join docente on avaliacao.id_docente=docente.id_docente "
 				+ "join turma on avaliacao.id_turma=turma.id_turma "
 				+ "join componente_curricular on turma.id_componente=componente_curricular.id_componente_curricular "
 				+ "join unidade on unidade.id_unidade=componente_curricular.id_unidade ";
@@ -94,7 +95,8 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 	 */
 	@Override
 	public Avaliacao findById(Integer id) {
-		String sql = "SELECT * FROM avaliacao " + "join docente on avaliacao.id_docente=docente.id_docente "
+		String sql = "SELECT * FROM avaliacao "
+				+ "join docente on avaliacao.id_docente=docente.id_docente "
 				+ "join turma on avaliacao.id_turma=turma.id_turma "
 				+ "join componente_curricular on turma.id_componente=componente_curricular.id_componente_curricular "
 				+ "join unidade on unidade.id_unidade=componente_curricular.id_unidade " + "WHERE id_avaliacao = ?";
@@ -163,7 +165,7 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 	public Avaliacao save(Avaliacao avaliacao) {
 		String sql = "REPLACE INTO avaliacao " + "(aprovados, atuacao_profissional, atuacao_profissionaldp,"
 				+ "media_aprovados, postura_profissional, postura_profissionaldp,"
-				+ "qtd_discentes, id_docente, id_turma)" + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "qtd_discentes, id_docente, id_turma)" + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try (Connection conn = dataSource.getConnection()) {
 			try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -174,7 +176,8 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 				ps.setDouble(5, avaliacao.getPosturaProfissional());
 				ps.setDouble(6, avaliacao.getPosturaProfissionalDP());
 				ps.setInt(7, avaliacao.getQtdDiscentes());
-				ps.setInt(8, avaliacao.getTurma().getId());
+				ps.setInt(8, avaliacao.getDocente().getId() );
+				ps.setInt(9, avaliacao.getTurma().getId());
 
 				ps.executeUpdate();
 			} catch (SQLException e) {
@@ -211,11 +214,12 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 
 	public List<Avaliacao> findByDocente(Integer id) {
 
-		String sql = "SELECT * FROM avaliacao " + "join docente on avaliacao.id_docente=docente.id_docente "
+		String sql = "SELECT * FROM avaliacao "
+				+ "join docente on avaliacao.id_docente=docente.id_docente "
 				+ "join turma on avaliacao.id_turma=turma.id_turma "
 				+ "join componente_curricular on turma.id_componente=componente_curricular.id_componente_curricular "
 				+ "join unidade on unidade.id_unidade=componente_curricular.id_unidade "
-				+ "where docente.id_docente = ?";
+				+ "where avaliacao.id_docente = ?";
 
 		List<Avaliacao> avaliacoes = new ArrayList<>();
 

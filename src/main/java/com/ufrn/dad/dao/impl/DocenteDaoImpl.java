@@ -94,7 +94,7 @@ public class DocenteDaoImpl extends GenericDao implements DocenteDao {
 
 	@Override
 	public Docente save(Docente docente) {
-		String sql = "INSERT INTO docente (id_docente, data_admissao, formacao, nome, id_unidade) "
+		String sql = "REPLACE INTO docente (id_docente, data_admissao, formacao, nome, id_unidade) "
 				+ "VALUES (?, ?, ?, ?, ?)";
 
 		try (Connection conn = dataSource.getConnection()) {
