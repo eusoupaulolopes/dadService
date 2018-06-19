@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ufrn.dad.dao.dto.DocenteMediasDTO;
 import com.ufrn.dad.dao.impl.DocenteDaoImpl;
 import com.ufrn.dad.model.Docente;
 
 @RestController
 @RequestMapping("docente")
 public class DocenteRest {
-	
+
 	@Autowired
 	DocenteDaoImpl repository;
 
@@ -45,20 +46,34 @@ public class DocenteRest {
 	public List<Docente> findAll() {
 		return repository.findAll();
 	}
-	
+
 	/**
 	 * Lista todos docentes cadastradas contendo o nome passado
 	 * 
 	 * @return
 	 */
-	@GetMapping(params = {"nome"})
+	@GetMapping(params = { "nome" })
 	public List<Docente> findAllByName(@RequestParam("nome") String nome) {
 		return repository.findAllByNome(nome);
 	}
-	
-	
 
 	/**
+	 * Apresenta um Docente pelo Id
+	 * 
+	 * @return
+	 */
+	@GetMapping("/{id}/media")
+	public ResponseEntity<DocenteMediasDTO> getMediasById(@PathVariable(value = "id") Integer id) {
+		DocenteMediasDTO dto = repository.findMediasByID(id);
+
+		if (dto == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		return ResponseEntity.ok().body(dto);
+	}
+
+	/*
 	 * Apresenta um Docente pelo Id
 	 * 
 	 * @return
@@ -66,16 +81,17 @@ public class DocenteRest {
 	@GetMapping("/{id}")
 	public ResponseEntity<Docente> getById(@PathVariable(value = "id") Integer id) {
 		Docente docente = repository.findById(id);
-		
+
 		if (docente == null) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
 		return ResponseEntity.ok().body(docente);
 	}
-	
+
 	/**
 	 * Atualiza um docente
+	 * 
 	 * @param id
 	 * @param docenteInfo
 	 * @return
@@ -83,7 +99,7 @@ public class DocenteRest {
 	@PutMapping("/{id}")
 	public ResponseEntity<Docente> update(@PathVariable(value = "id") Integer id, @RequestBody Docente docenteInfo) {
 		Docente docente = repository.findById(id);
-		
+
 		if (docente == null) {
 			return ResponseEntity.notFound().build();
 		}
@@ -95,8 +111,5 @@ public class DocenteRest {
 		Docente updateDocente = repository.save(docente);
 		return ResponseEntity.ok(updateDocente);
 	}
-
-	
-	
 
 }

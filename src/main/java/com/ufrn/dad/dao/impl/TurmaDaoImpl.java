@@ -131,7 +131,16 @@ public class TurmaDaoImpl extends GenericDao implements TurmaDao {
 
 	@Override
 	public void delete(Turma u) {
-		// TODO Auto-generated method stub
+	String sql = "DELETE FROM turma WHERE id_turma = ?";
+		
+		try(Connection conn = dataSource.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, u.getId());
+			ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} 
 
 	}
 

@@ -13,41 +13,36 @@ import org.springframework.stereotype.Repository;
 
 import com.ufrn.dad.dao.DocenteDao;
 import com.ufrn.dad.dao.GenericDao;
+import com.ufrn.dad.dao.dto.DocenteMediasDTO;
 import com.ufrn.dad.model.Docente;
-import com.ufrn.dad.model.Turma;
 import com.ufrn.dad.model.Unidade;
 
 @Repository
 public class DocenteDaoImpl extends GenericDao implements DocenteDao {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ufrn.dad.dao.impl.DocenteDao#getAll()
-	 */
 	@Override
 	public List<Docente> findAll() {
 		String sql = "SELECT * FROM docente docente left join unidade on docente.id_unidade=unidade.id_unidade";
 		try (Connection conn = dataSource.getConnection()) {
-				Statement st = conn.createStatement();
-				ResultSet rs = st.executeQuery(sql);
-				List<Docente> docentes = new ArrayList<Docente>();
-				while (rs.next()) {
-					Docente d = new Docente();
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			List<Docente> docentes = new ArrayList<Docente>();
+			while (rs.next()) {
+				Docente d = new Docente();
 
-					d.setId(rs.getInt("id_docente"));
-					d.setFormacao(rs.getString("formacao"));
-					d.setNome(rs.getString("nome"));
-					d.setData_admissao(rs.getDate("data_admissao"));
+				d.setId(rs.getInt("id_docente"));
+				d.setFormacao(rs.getString("formacao"));
+				d.setNome(rs.getString("nome"));
+				d.setData_admissao(rs.getDate("data_admissao"));
 
-					Unidade u = new Unidade();
-					u.setId(rs.getInt("id_unidade"));
-					u.setLotacao(rs.getString("lotacao"));
-					d.setUnidade(u);
-					docentes.add(d);
-				}
-				return docentes;
-			
+				Unidade u = new Unidade();
+				u.setId(rs.getInt("id_unidade"));
+				u.setLotacao(rs.getString("lotacao"));
+				d.setUnidade(u);
+				docentes.add(d);
+			}
+			return docentes;
+
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -69,7 +64,7 @@ public class DocenteDaoImpl extends GenericDao implements DocenteDao {
 			if (rs.next()) {
 				docente = new Docente();
 				docente.setId(rs.getInt("id_docente"));
-				
+
 				Date date = rs.getDate("data_admissao");
 				docente.setData_admissao(date);
 				docente.setFormacao(rs.getString("formacao"));
@@ -89,7 +84,7 @@ public class DocenteDaoImpl extends GenericDao implements DocenteDao {
 			e1.printStackTrace();
 		}
 		return null;
-		
+
 	}
 
 	@Override
@@ -115,12 +110,6 @@ public class DocenteDaoImpl extends GenericDao implements DocenteDao {
 
 	}
 
-	// */
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ufrn.dad.dao.impl.DocenteDao#delete(com.ufrn.dad.model.Docente)
-	 */
 	@Override
 	public void delete(Docente docente) {
 		String sql = "DELETE FROM docente WHERE id_docente=?";
@@ -139,18 +128,19 @@ public class DocenteDaoImpl extends GenericDao implements DocenteDao {
 
 	}
 
+	@Override
 	public List<Docente> findAllByNome(String nome) {
 		String sql = "SELECT * FROM docente "
 				+ "docente left join unidade on docente.id_unidade=unidade.id_unidade where nome LIKE ?";
 
 		try (Connection conn = dataSource.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, "%"+nome+"%");
+			ps.setString(1, "%" + nome + "%");
 
 			ResultSet rs = ps.executeQuery();
 			List<Docente> docentes = new ArrayList<Docente>();
-			 while(rs.next()) {
-				 Docente docente = new Docente();
+			while (rs.next()) {
+				Docente docente = new Docente();
 				docente.setId(rs.getInt("id_docente"));
 				Date date = rs.getDate("data_admissao");
 				docente.setData_admissao(date);
@@ -167,7 +157,38 @@ public class DocenteDaoImpl extends GenericDao implements DocenteDao {
 			return docentes;
 
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public DocenteMediasDTO findMediasByID(Integer id) {
+		String sql = "SELECT avaliacao.id_docente, nome, AVG(aprovados) AS aprovados, AVG(media_aprovados) AS media_aprovados, AVG(atuacao_profissional) AS atuacao_profissional, AVG(postura_profissional) AS postura_profissional "
+				+ "FROM avaliacao "
+				+ "LEFT JOIN docente ON avaliacao.id_docente=docente.id_docente GROUP BY avaliacao.id_docente "
+				+ "WHERE docente.id_docente = ? " + "ORDER BY nome";
+
+		try (Connection conn = dataSource.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+
+			ResultSet rs = ps.executeQuery();
+			DocenteMediasDTO dto = null;
+			if (rs.next()) {
+				dto = new DocenteMediasDTO();
+				dto.setId_docente(rs.getInt("id_docente"));
+				dto.setNome(rs.getString("nome"));
+				dto.setMedia_aprovados(rs.getDouble("aprovados"));
+				dto.setAprovados(rs.getDouble("aprovados"));
+				dto.setAtuacao_profissional(rs.getDouble("atuacao_profissional"));
+				dto.setPostura_profissional(rs.getDouble("postura_profissional"));
+
+			}
+			rs.close();
+			return dto;
+
+		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 		return null;

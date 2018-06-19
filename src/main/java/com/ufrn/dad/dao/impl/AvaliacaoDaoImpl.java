@@ -20,15 +20,9 @@ import com.ufrn.dad.model.Unidade;
 @Repository
 public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ufrn.dad.dao.impl.AvaliacaoDao#getAll()
-	 */
 	@Override
 	public List<Avaliacao> findAll() {
-		String sql = "SELECT * FROM avaliacao "
-				+ "join docente on avaliacao.id_docente=docente.id_docente "
+		String sql = "SELECT * FROM avaliacao " + "join docente on avaliacao.id_docente=docente.id_docente "
 				+ "join turma on avaliacao.id_turma=turma.id_turma "
 				+ "join componente_curricular on turma.id_componente=componente_curricular.id_componente_curricular "
 				+ "join unidade on unidade.id_unidade=componente_curricular.id_unidade ";
@@ -72,7 +66,7 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 				ComponenteCurricular componente = new ComponenteCurricular();
 				componente.setId(rs.getInt("id_componente_curricular"));
 				componente.setCodigo(rs.getString("codigo"));
-				componente.setNomeComponenteCurricular(rs.getString("nome"));
+				componente.setNomeComponenteCurricular(rs.getString("nome_componente_curricular"));
 				turma.setComponenteCurricular(componente);
 
 				componente.setUnidade(unidade);
@@ -88,15 +82,9 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 		return avaliacoes;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.ufrn.dad.dao.impl.AvaliacaoDao#getById(java.lang.Integer)
-	 */
 	@Override
 	public Avaliacao findById(Integer id) {
-		String sql = "SELECT * FROM avaliacao "
-				+ "join docente on avaliacao.id_docente=docente.id_docente "
+		String sql = "SELECT * FROM avaliacao " + "join docente on avaliacao.id_docente=docente.id_docente "
 				+ "join turma on avaliacao.id_turma=turma.id_turma "
 				+ "join componente_curricular on turma.id_componente=componente_curricular.id_componente_curricular "
 				+ "join unidade on unidade.id_unidade=componente_curricular.id_unidade " + "WHERE id_avaliacao = ?";
@@ -140,7 +128,7 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 				ComponenteCurricular componente = new ComponenteCurricular();
 				componente.setId(rs.getInt("id_componente_curricular"));
 				componente.setCodigo(rs.getString("codigo"));
-				componente.setNomeComponenteCurricular(rs.getString("nome"));
+				componente.setNomeComponenteCurricular(rs.getString("nome_componente_curricular"));
 				turma.setComponenteCurricular(componente);
 
 				componente.setUnidade(unidade);
@@ -155,12 +143,6 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.ufrn.dad.dao.impl.AvaliacaoDao#save(com.ufrn.dad.model.Avaliacao)
-	 */
 	@Override
 	public Avaliacao save(Avaliacao avaliacao) {
 		String sql = "REPLACE INTO avaliacao " + "(aprovados, atuacao_profissional, atuacao_profissionaldp,"
@@ -176,7 +158,7 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 				ps.setDouble(5, avaliacao.getPosturaProfissional());
 				ps.setDouble(6, avaliacao.getPosturaProfissionalDP());
 				ps.setInt(7, avaliacao.getQtdDiscentes());
-				ps.setInt(8, avaliacao.getDocente().getId() );
+				ps.setInt(8, avaliacao.getDocente().getId());
 				ps.setInt(9, avaliacao.getTurma().getId());
 
 				ps.executeUpdate();
@@ -192,12 +174,6 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.ufrn.dad.dao.impl.AvaliacaoDao#delete(com.ufrn.dad.model.Avaliacao)
-	 */
 	@Override
 	public void delete(Avaliacao avaliacao) {
 		String sql = "DELETE FROM avaliacao WHERE id_avaliacao=?";
@@ -212,10 +188,10 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 
 	}
 
+	@Override
 	public List<Avaliacao> findByDocente(Integer id) {
 
-		String sql = "SELECT * FROM avaliacao "
-				+ "join docente on avaliacao.id_docente=docente.id_docente "
+		String sql = "SELECT * FROM avaliacao " + "join docente on avaliacao.id_docente=docente.id_docente "
 				+ "join turma on avaliacao.id_turma=turma.id_turma "
 				+ "join componente_curricular on turma.id_componente=componente_curricular.id_componente_curricular "
 				+ "join unidade on unidade.id_unidade=componente_curricular.id_unidade "
@@ -263,7 +239,7 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 				ComponenteCurricular componente = new ComponenteCurricular();
 				componente.setId(rs.getInt("id_componente_curricular"));
 				componente.setCodigo(rs.getString("codigo"));
-				componente.setNomeComponenteCurricular(rs.getString("nome"));
+				componente.setNomeComponenteCurricular(rs.getString("nome_componente_curricular"));
 				turma.setComponenteCurricular(componente);
 
 				componente.setUnidade(unidade);
@@ -273,7 +249,70 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 			rs.close();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return avaliacoes;
+	}
+
+	@Override
+	public List<Avaliacao> findByComponente(Integer id) {
+
+		String sql = "SELECT * FROM avaliacao " + "JOIN turma ON avaliacao.id_turma=turma.id_turma "
+				+ "JOIN componente_curricular ON turma.id_componente=componente_curricular.id_componente_curricular "
+				+ "JOIN docente ON avaliacao.id_docente=docente.id_docente" + "WHERE id_componente_curricular= ?";
+
+		List<Avaliacao> avaliacoes = new ArrayList<>();
+
+		try (Connection conn = dataSource.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				Avaliacao avaliacao = new Avaliacao();
+				avaliacao.setId(rs.getInt("id_avaliacao"));
+				avaliacao.setAprovados(rs.getDouble("aprovados"));
+				avaliacao.setAtuacaoProfissional(rs.getDouble("atuacao_profissional"));
+				avaliacao.setAtuacaoProfissionalDP(rs.getDouble("atuacao_profissionaldp"));
+				avaliacao.setMediaAprovados(rs.getDouble("media_aprovados"));
+				avaliacao.setPosturaProfissional(rs.getDouble("postura_profissional"));
+				avaliacao.setPosturaProfissionalDP(rs.getDouble("postura_profissionaldp"));
+				avaliacao.setQtdDiscentes(rs.getInt("qtd_discentes"));
+
+				Unidade unidade = new Unidade();
+				unidade.setId(rs.getInt("id_unidade"));
+				unidade.setLotacao(rs.getString("lotacao"));
+
+				Docente docente = new Docente();
+				docente.setId(rs.getInt("id_docente"));
+				docente.setNome(rs.getString("nome"));
+				docente.setData_admissao(rs.getDate("data_admissao"));
+				docente.setFormacao(rs.getString("formacao"));
+				docente.setUnidade(unidade);
+				avaliacao.setDocente(docente);
+
+				Turma turma = new Turma();
+				turma.setId(rs.getInt("id_turma"));
+				turma.setAno(rs.getString("ano"));
+				turma.setPeriodo(rs.getString("periodo"));
+				turma.setNivel(rs.getString("nivel"));
+				avaliacao.setTurma(turma);
+
+				ComponenteCurricular componente = new ComponenteCurricular();
+				componente.setId(rs.getInt("id_componente_curricular"));
+				componente.setCodigo(rs.getString("codigo"));
+				componente.setNomeComponenteCurricular(rs.getString("nome_componente_curricular"));
+				turma.setComponenteCurricular(componente);
+
+				componente.setUnidade(unidade);
+				avaliacoes.add(avaliacao);
+			}
+			ps.close();
+			rs.close();
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return avaliacoes;

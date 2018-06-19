@@ -14,6 +14,11 @@ import com.ufrn.dad.dao.GenericDao;
 import com.ufrn.dad.dao.UnidadeDao;
 import com.ufrn.dad.model.Unidade;
 
+/**
+ * Implementacao do DAO responsável pelas requisicoes a Unidades
+ * @author Paulo
+ *
+ */
 @Repository
 public class UnidadeDaoImpl extends GenericDao implements UnidadeDao {
 	

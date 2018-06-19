@@ -41,6 +41,12 @@ public class AvaliacaoRest {
 	public List<Avaliacao> findByDocente(@RequestParam(value = "id_docente") Integer id_docente) {
 		return repository.findByDocente(id_docente);
 	}
+	
+	@GetMapping(params = {"id_componente"})
+	public List<Avaliacao> findByComponente(@RequestParam(value = "id_componente") Integer id_componente) {
+		return repository.findByComponente(id_componente);
+	}
+	
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Avaliacao> getById(@PathVariable(value = "id") Integer id) {
