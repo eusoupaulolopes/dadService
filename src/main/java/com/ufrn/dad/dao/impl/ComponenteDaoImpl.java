@@ -22,7 +22,7 @@ public class ComponenteDaoImpl extends GenericDao implements ComponenteDao {
 		String sql = "SELECT * FROM componente_curricular "
 				+ "left join unidade on unidade.id_unidade=componente_curricular.id_unidade "
 				+ "where unidade.id_unidade is not NULL";
-		;
+		
 
 		List<ComponenteCurricular> componentes = new ArrayList<>();
 
@@ -53,20 +53,27 @@ public class ComponenteDaoImpl extends GenericDao implements ComponenteDao {
 
 	@Override
 	public ComponenteCurricular findById(Integer id) {
-		String sql = "";
+		String sql = "SELECT * FROM componente_curricular "
+				+ "left join unidade on unidade.id_unidade=componente_curricular.id_unidade "
+				+ "where componente_curricular.id_componente_curricular = ?";
+		
 		ComponenteCurricular componente = null;
 		try (Connection conn = dataSource.getConnection()) {
 			try (PreparedStatement ps = conn.prepareStatement(sql)) {
-
+				ps.setInt(1, id);
+				
 				ResultSet rs = ps.executeQuery();
-				componente = new ComponenteCurricular();
-				componente.setId(rs.getInt("id_componente_curricular"));
-				componente.setCodigo(rs.getString("codigo"));
-				componente.setNomeComponenteCurricular(rs.getString("nome_componente_curricular"));
-				Unidade unidade = new Unidade();
-				unidade.setId(rs.getInt("id_unidade"));
-				unidade.setLotacao(rs.getString("lotacao"));
-				componente.setUnidade(unidade);
+				if (rs.next()) {
+					componente = new ComponenteCurricular();
+					componente.setId(rs.getInt("id_componente_curricular"));
+					componente.setCodigo(rs.getString("codigo"));
+					componente.setNomeComponenteCurricular(rs.getString("nome_componente_curricular"));
+					Unidade unidade = new Unidade();
+					unidade.setId(rs.getInt("id_unidade"));
+					unidade.setLotacao(rs.getString("lotacao"));
+					componente.setUnidade(unidade);
+				}
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

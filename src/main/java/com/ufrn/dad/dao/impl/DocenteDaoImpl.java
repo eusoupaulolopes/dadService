@@ -44,7 +44,6 @@ public class DocenteDaoImpl extends GenericDao implements DocenteDao {
 			return docentes;
 
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		return null;
@@ -80,7 +79,6 @@ public class DocenteDaoImpl extends GenericDao implements DocenteDao {
 			return docente;
 
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		return null;
@@ -118,11 +116,9 @@ public class DocenteDaoImpl extends GenericDao implements DocenteDao {
 				ps.setInt(1, docente.getId());
 				ps.executeUpdate();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 

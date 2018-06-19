@@ -136,7 +136,6 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 			ps.close();
 			rs.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return avaliacao;
@@ -160,14 +159,14 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 				ps.setInt(7, avaliacao.getQtdDiscentes());
 				ps.setInt(8, avaliacao.getDocente().getId());
 				ps.setInt(9, avaliacao.getTurma().getId());
-
+				
 				ps.executeUpdate();
+				
+//				System.out.println(ps.toString()); Caso queiramos mostrar uma consulta
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		return avaliacao;
@@ -182,7 +181,6 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 			ps.setInt(1, avaliacao.getId());
 			ps.executeUpdate();
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
