@@ -255,9 +255,10 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 	@Override
 	public List<Avaliacao> findByComponente(Integer id) {
 
-		String sql = "SELECT * FROM avaliacao " + "JOIN turma ON avaliacao.id_turma=turma.id_turma "
-				+ "JOIN componente_curricular ON turma.id_componente=componente_curricular.id_componente_curricular "
-				+ "JOIN docente ON avaliacao.id_docente=docente.id_docente" + " WHERE id_componente_curricular= ?";
+		String sql = "SELECT * FROM avaliacao JOIN turma ON avaliacao.id_turma=turma.id_turma "+
+				"JOIN componente_curricular ON turma.id_componente=componente_curricular.id_componente_curricular "+
+				"JOIN docente ON avaliacao.id_docente=docente.id_docente "+
+				"JOIN unidade on unidade.id_unidade=docente.id_unidade WHERE id_componente_curricular=?";
 
 		List<Avaliacao> avaliacoes = new ArrayList<>();
 

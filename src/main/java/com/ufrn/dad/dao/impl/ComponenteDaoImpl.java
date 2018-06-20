@@ -123,9 +123,11 @@ public class ComponenteDaoImpl extends GenericDao implements ComponenteDao {
 
 	@Override
 	public List<ComponenteCurricular> findAllByNomeComponente(String nome_componente_curricular) {
-		String sql = "SELECT * FROM componente_curricular " + 
+		String sql ="SELECT distinct(id_componente_curricular), codigo, nome_componente_curricular, componente_curricular.id_unidade, lotacao FROM componente_curricular " + 
+				"left join turma on turma.id_componente=componente_curricular.id_componente_curricular " + 
 				"LEFT JOIN unidade ON unidade.id_unidade=componente_curricular.id_unidade " + 
-				"WHERE nome_componente_curricular LIKE ?";
+				"JOIN avaliacao " + 
+				"WHERE nome_componente_curricular LIKE ? and turma.id_turma is not null and avaliacao.id_turma=turma.id_turma";
 
 		try (Connection conn = dataSource.getConnection()) {
 			try (PreparedStatement ps = conn.prepareStatement(sql)) {
