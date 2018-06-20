@@ -160,10 +160,7 @@ public class DocenteDaoImpl extends GenericDao implements DocenteDao {
 
 	@Override
 	public DocenteMediasDTO findMediasByID(Integer id) {
-		String sql = "SELECT avaliacao.id_docente, nome, AVG(aprovados) AS aprovados, AVG(media_aprovados) AS media_aprovados, AVG(atuacao_profissional) AS atuacao_profissional, AVG(postura_profissional) AS postura_profissional "
-				+ "FROM avaliacao "
-				+ "LEFT JOIN docente ON avaliacao.id_docente=docente.id_docente GROUP BY avaliacao.id_docente "
-				+ "WHERE docente.id_docente = ? " + "ORDER BY nome";
+		String sql = "SELECT * FROM (SELECT avaliacao.id_docente, nome, AVG(aprovados) AS aprovados, AVG(media_aprovados) AS media_aprovados, AVG(atuacao_profissional) AS atuacao_profissional, AVG(postura_profissional) AS postura_profissional FROM avaliacao LEFT JOIN docente ON avaliacao.id_docente=docente.id_docente GROUP BY avaliacao.id_docente) AS result WHERE result.id_docente = ? ORDER BY result.nome ASC";
 
 		try (Connection conn = dataSource.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -175,7 +172,7 @@ public class DocenteDaoImpl extends GenericDao implements DocenteDao {
 				dto = new DocenteMediasDTO();
 				dto.setId_docente(rs.getInt("id_docente"));
 				dto.setNome(rs.getString("nome"));
-				dto.setMedia_aprovados(rs.getDouble("aprovados"));
+				dto.setMedia_aprovados(rs.getDouble("media_aprovados"));
 				dto.setAprovados(rs.getDouble("aprovados"));
 				dto.setAtuacao_profissional(rs.getDouble("atuacao_profissional"));
 				dto.setPostura_profissional(rs.getDouble("postura_profissional"));

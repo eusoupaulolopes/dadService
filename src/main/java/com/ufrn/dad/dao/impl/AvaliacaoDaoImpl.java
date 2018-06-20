@@ -257,7 +257,7 @@ public class AvaliacaoDaoImpl extends GenericDao implements AvaliacaoDao {
 
 		String sql = "SELECT * FROM avaliacao " + "JOIN turma ON avaliacao.id_turma=turma.id_turma "
 				+ "JOIN componente_curricular ON turma.id_componente=componente_curricular.id_componente_curricular "
-				+ "JOIN docente ON avaliacao.id_docente=docente.id_docente" + "WHERE id_componente_curricular= ?";
+				+ "JOIN docente ON avaliacao.id_docente=docente.id_docente" + " WHERE id_componente_curricular= ?";
 
 		List<Avaliacao> avaliacoes = new ArrayList<>();
 
